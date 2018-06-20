@@ -9,7 +9,8 @@ import numpy as np
 import math as mt
 from sklearn.linear_model import LogisticRegression
 import time
-
+import gc 
+gc.collect()
 start = time.clock()
 #导入整个数据集以及对应的标签
 posdataset=np.loadtxt('posk6')

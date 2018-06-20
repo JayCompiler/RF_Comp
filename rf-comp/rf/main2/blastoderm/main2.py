@@ -8,7 +8,9 @@ from sklearn.model_selection import cross_val_score
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import math as mt
+import gc 
 #导入整个数据集以及对应的标签
+gc.collect()
 posdataset=np.loadtxt('posk6')
 negdataset=np.loadtxt('negk6')
 size=posdataset.shape[0]
