@@ -1,0 +1,7 @@
+k=6 0.95  n_estimators=500, max_depth=None,criterion='gini',
+     min_samples_split=2, random_state=None,max_features=int(mt.sqrt(dataset.shape[1])),
+     n_jobs=-1 cv=5
+k=5 0.95
+k=4 0.971031746031746
+k=3 0.8645502645502645
+k=2 0.7507936507936508
