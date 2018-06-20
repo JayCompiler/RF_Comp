@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 24 15:21:52 2018
-
-@author: YZi
+Created on Wed Jun 20 17:02:06 2018
+逻辑分类器
+@author: zhang_yu
 """
 from sklearn.model_selection import cross_val_score
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
 import math as mt
+from sklearn.linear_model import LogisticRegression
+import time
+
+start = time.clock()
 #导入整个数据集以及对应的标签
 posdataset=np.loadtxt('posk6')
 negdataset=np.loadtxt('negk6')
@@ -30,9 +33,9 @@ for i in range(0,len(negdataset)):
         count=count+1    
 #np.transpose(label)
 print(mt.sqrt(dataset.shape[1]))
-clf = RandomForestClassifier(n_estimators=1500, max_depth=None,criterion='gini',
-     min_samples_split=2, random_state=None,max_features=int(mt.sqrt(dataset.shape[1])),
-     n_jobs=-1)
-scores = cross_val_score(clf, dataset, label,cv=5,scoring='roc_auc')
+lr = LogisticRegression(C=1000.0, random_state=0)
+scores = cross_val_score(lr, dataset, label,cv=5,scoring='roc_auc')
 result=scores.mean() 
 print(result) 
+elapsed = (time.clock() - start)
+print("Time used:",elapsed)
