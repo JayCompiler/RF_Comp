@@ -35,6 +35,6 @@ print(mt.sqrt(dataset.shape[1]))
 clf = RandomForestClassifier(n_estimators=1500, max_depth=None,criterion='gini',
      min_samples_split=2, random_state=None,max_features=int(mt.sqrt(dataset.shape[1])),
      n_jobs=-1)
-scores = cross_val_score(clf, dataset, label,cv=5,scoring='roc_auc')
+scores = cross_val_score(clf, dataset, label,cv=2,scoring='roc_auc')
 result=scores.mean() 
 print(result) 

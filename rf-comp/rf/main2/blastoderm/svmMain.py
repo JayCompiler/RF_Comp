@@ -17,13 +17,22 @@ start = time.clock()
 posdataset=np.loadtxt('posk6')
 negdataset=np.loadtxt('negk6')
 size=posdataset.shape[0]
+
+#构建不均衡类别数据集
+negdataset1=negdataset[0:int(size/10)]
+size1=negdataset1.shape[0]
+print("size:",size1)
+
+
 count=0
 #处理数据集
-m=int(size*(size-1))
+poSize=int(size*(size-1)/2)
+neSize=int(size*(size-1)/20)
+m=poSize+neSize
 n=posdataset.shape[1]
 dataset=np.zeros((m,n))
-label1=np.ones((int(m/2)))
-label2=np.zeros((int(m/2)))
+label1=np.ones(poSize)
+label2=np.zeros(neSize)
 label=np.concatenate((label1,label2))
 for i in range(0,len(posdataset)):
     for j in range(i+1,len(posdataset)):
@@ -31,8 +40,11 @@ for i in range(0,len(posdataset)):
         count=count+1
 for i in range(0,len(negdataset)):
     for j in range(i+1,len(negdataset)):
-        dataset[count]=np.abs(negdataset[i]-negdataset[j])
-        count=count+1    
+        if count>=m:
+            break
+        else:
+            dataset[count]=np.abs(negdataset[i]-negdataset[j])
+            count=count+1  
 #np.transpose(label)
 print(mt.sqrt(dataset.shape[1]))
 clf= svm.SVC()

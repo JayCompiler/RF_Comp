@@ -1,20 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jun 20 17:02:06 2018
-逻辑分类器
+Created on Thu Jun 21 14:56:25 2018
+RandomForest
 @author: zhang_yu
 """
-#from sklearn.model_selection import cross_val_score
+
 import numpy as np
-import math as mt
-from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import train_test_split
+import math as mt
 from sklearn import metrics
-import time
 import gc 
-gc.collect()
-start = time.clock()
 #导入整个数据集以及对应的标签
+gc.collect()
 posdataset=np.loadtxt('posk6')
 negdataset=np.loadtxt('negk6')
 size=posdataset.shape[0]
@@ -59,19 +57,23 @@ dataset=np.concatenate((pos,neg),axis=0)
 
 #split the dataset and label:
 X_train, X_test, y_train, y_test = train_test_split(dataset, label, random_state=0)
+
 #np.transpose(label)
 print(mt.sqrt(dataset.shape[1]))
-lr = LogisticRegression()
-lr.fit(X_train,y_train)
-y_pred_class = lr.predict(X_test)
+rf = RandomForestClassifier(n_estimators=1500, max_depth=None,criterion='gini',
+     min_samples_split=2, random_state=None,max_features=int(mt.sqrt(dataset.shape[1])),
+     n_jobs=-1)
+rf.fit(X_train,y_train)
+y_pred_class = rf.predict(X_test)
 # calculate accuracy
 print ("acc:",metrics.accuracy_score(y_test, y_pred_class))
 #计算空准确率
 print("null acc:",max(y_test.mean(), 1-y_test.mean()))
 # 混淆矩阵
 print ("混淆矩阵：",metrics.confusion_matrix(y_test, y_pred_class))
-#scores = cross_val_score(lr, dataset, label,cv=2,scoring='roc_auc')
+#clf = RandomForestClassifier(n_estimators=1500, max_depth=None,criterion='gini',
+#     min_samples_split=2, random_state=None,max_features=int(mt.sqrt(dataset.shape[1])),
+#     n_jobs=-1)
+#scores = cross_val_score(clf, dataset, label,cv=10,scoring='roc_auc')
 #result=scores.mean() 
 #print(result) 
-elapsed = (time.clock() - start)
-print("Time used:",elapsed)
